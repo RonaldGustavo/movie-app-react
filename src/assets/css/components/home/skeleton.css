@@ -1,0 +1,15 @@
+@keyframes flash {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.5;
+  }
+}
+
+.card-skeleton {
+  animation: flash 1.5s infinite;
+}

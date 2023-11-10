@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 
 function HeaderMovie() {
   return (
-    <Navbar className="bg-dark w-100 py-3" expand="lg">
+    <Navbar className="bg-dark w-100 py-3" expand="lg" fixed="top">
       <Container fluid>
         <Navbar.Brand
           href="#home"

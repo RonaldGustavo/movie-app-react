@@ -1,3 +1,4 @@
+import DataMovie from "../features/movies/components/DataMovie";
 import HeaderMovie from "../features/movies/components/Header";
 
 const HomePage = () => {
@@ -13,7 +14,10 @@ const HomePage = () => {
       >
         <HeaderMovie />
         <div className="container-fluid">
-          <h1>test</h1>
+          <br />
+          <br />
+          <br />
+          <DataMovie />
         </div>
       </div>
     </div>

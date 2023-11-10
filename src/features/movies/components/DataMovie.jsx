@@ -1,7 +1,9 @@
+import DataMovieNowPlaying from "./DataMovieNowPlaying";
+
 const DataMovie = () => {
   return (
     <>
-      <h1>test</h1>
+      <DataMovieNowPlaying />
     </>
   );
 };
