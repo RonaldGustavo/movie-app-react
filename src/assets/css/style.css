@@ -1,0 +1,7 @@
+@import "../css/components/home/index.css";
+
+.container-box {
+  background: linear-gradient(to bottom right, #3a75cc, #051d3e);
+  width: 100%;
+  min-height: 100vh;
+}
