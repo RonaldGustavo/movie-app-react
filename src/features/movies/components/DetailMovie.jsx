@@ -24,6 +24,7 @@ const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
       onHide={handleClose}
       className="modal-lg"
       backdrop={false}
+      centered
     >
       <Modal.Header closeButton>
         <Modal.Title style={{ textShadow: "0.5px 1px 2px" }}>
