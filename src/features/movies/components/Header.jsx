@@ -24,7 +24,7 @@ function HeaderMovie() {
   };
 
   return (
-    <Navbar className="bg-dark w-100 py-3" expand="lg" fixed="top">
+    <Navbar className="bg-dark w-100 py-4" expand="lg" fixed="top">
       <Container fluid>
         <Navbar.Brand
           href="#home"
@@ -33,6 +33,7 @@ function HeaderMovie() {
             textShadow: "1.5px 1px 4px",
             fontSize: "1.5rem",
           }}
+          className="brand_logo"
         >
           Movie App Ronald
         </Navbar.Brand>

@@ -17,6 +17,7 @@ const HomePage = () => {
           <br />
           <br />
           <br />
+          <br />
           <DataMovie />
         </div>
       </div>
