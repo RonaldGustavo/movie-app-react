@@ -5,3 +5,45 @@
   width: 100%;
   min-height: 100vh;
 }
+
+/* SplashScreen.css */
+.splash-screen {
+  background: linear-gradient(to bottom right, #3a75cc, #051d3e);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+h1 {
+  opacity: 0;
+  text-shadow: 2px 2px 4px;
+  font-size: 4rem;
+  animation: fadeIn 1s ease-in-out forwards;
+  text-align: center;
+}
+
+img {
+  height: 450px;
+}

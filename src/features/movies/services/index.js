@@ -24,3 +24,15 @@ export const getDataDetailMovieService = async (idMovie) => {
     throw error;
   }
 };
+
+export const searchMovieService = async (keyword) => {
+  try {
+    const result = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${keyword}`
+    );
+    const data = await result.data.results;
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

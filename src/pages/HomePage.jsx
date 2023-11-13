@@ -13,7 +13,7 @@ const HomePage = () => {
         }}
       >
         <HeaderMovie />
-        <div className="container-fluid">
+        <div className="container-fluid" style={{ minHeight: "100vh" }}>
           <br />
           <br />
           <br />

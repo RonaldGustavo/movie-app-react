@@ -5,10 +5,11 @@ import {
   getDataMovieNowPlayingAction,
 } from "../actions";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { formatDate } from "../../../utils/Date";
-import { toast } from "react-toastify";
 import DetailMovie from "./DetailMovie";
+
+// image
+import img_card from "../../../assets/images/image_card.jpg";
 
 const DataMovieNowPlaying = () => {
   const dispatch = useDispatch();
@@ -28,14 +29,15 @@ const DataMovieNowPlaying = () => {
   }, [dispatch]);
 
   const {
-    dataMovieNowPlaying,
-    isLoadingMovieNowPlaying,
+    dataMoviePopular,
+    isLoadingPopularMovie,
     isLoadingDetail,
     dataDetailMovie,
   } = useSelector((state) => state.movies);
   console.log("data detail: ", dataDetailMovie);
+  console.log("loading", isLoadingPopularMovie);
 
-  console.log(dataMovieNowPlaying);
+  console.log(dataMoviePopular);
 
   const handleDetail = (idMovie) => {
     setShow(true);
@@ -53,9 +55,10 @@ const DataMovieNowPlaying = () => {
             color: "#ffffff",
           }}
         >
-          Now Playing
+          Popular Movie
         </h2>
-        {isLoadingMovieNowPlaying || showSkeleton ? (
+
+        {isLoadingPopularMovie || showSkeleton ? (
           <Row>
             {Array.from({ length: 12 }).map((_, index) => (
               <Col key={index} xs={12} sm={6} md={6} lg={4} xl={3}>
@@ -63,43 +66,73 @@ const DataMovieNowPlaying = () => {
                   style={{
                     marginBottom: "20px",
                     backgroundColor: "black",
-                    minHeight: `${500}px`,
+                    minHeight: `${600}px`,
                   }}
                   className="card-skeleton"
                 >
-                  <SkeletonTheme color="#202020" highlightColor="#444">
-                    <Skeleton height={200} />
-                    <Card.Body style={{ height: "100%" }}>
-                      <Card.Title>
-                        <Skeleton height={20} />
-                      </Card.Title>
-                      <Card.Text>
-                        <Skeleton count={3} />
-                      </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                      <Card.Text>
-                        <Skeleton height={15} />
-                      </Card.Text>
-                    </Card.Footer>
-                  </SkeletonTheme>
+                  <div
+                    className="card-skeleton"
+                    style={{
+                      width: "100%",
+                      height: "450px",
+                      backgroundColor: "#202020",
+                      marginBottom: "5px",
+                    }}
+                  ></div>
+                  <div
+                    className="card-skeleton"
+                    style={{
+                      width: "100%",
+                      height: "55px",
+                      backgroundColor: "#202020",
+                      marginBottom: "5px",
+                    }}
+                  ></div>
+                  <div
+                    className="card-skeleton"
+                    style={{
+                      width: "100%",
+                      height: "70px",
+                      backgroundColor: "#202020",
+                      marginBottom: "5px",
+                    }}
+                  ></div>
+                  <div
+                    className="card-skeleton"
+                    style={{
+                      width: "100%",
+                      height: "40px",
+                      backgroundColor: "#202020",
+                      marginBottom: "5px",
+                    }}
+                  ></div>
+                  <div
+                    className="card-skeleton"
+                    style={{
+                      width: "100%",
+                      height: "60px",
+                      backgroundColor: "#202020",
+                      marginBottom: "5px",
+                    }}
+                  ></div>
                 </Card>
               </Col>
             ))}
           </Row>
-        ) : (
+        ) : dataMoviePopular && dataMoviePopular.length > 0 ? (
           <Row>
-            {dataMovieNowPlaying &&
-              dataMovieNowPlaying.map((data) => (
-                <Col key={data.id} xs={12} sm={6} md={6} lg={4} xl={3}>
-                  <Card
-                    style={{
-                      marginBottom: "20px",
-                      backgroundColor: "black",
-                      minHeight: `700px`,
-                      borderRadius: "10px",
-                    }}
-                  >
+            {dataMoviePopular.map((data) => (
+              <Col key={data.id} xs={12} sm={6} md={6} lg={4} xl={3}>
+                <Card
+                  style={{
+                    marginBottom: "20px",
+                    backgroundColor: "black",
+                    minHeight: `725px`,
+                    borderRadius: "10px",
+                  }}
+                >
+                  {" "}
+                  {data.poster_path ? (
                     <Card.Img
                       variant="top"
                       src={`${process.env.REACT_APP_IMG_URL}${data.poster_path}`}
@@ -109,47 +142,76 @@ const DataMovieNowPlaying = () => {
                         width: "100%",
                       }}
                     />
-                    <Card.Body style={{ minHeight: "100px" }}>
-                      <Card.Title
-                        style={{
-                          color: "red",
-                          minHeight: "40px",
-                          fontSize: "1.1rem",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          textAlign: "center",
-                        }}
-                      >
-                        {data.original_title}
-                      </Card.Title>
-                      <Card.Text
-                        style={{
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          fontSize: "0.8rem",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {data.overview.split(" ").slice(0, 20).join(" ")}
-                        {data.overview.split(" ").length > 20 && "..."}
-                      </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                      <Card.Text style={{ color: "white", fontSize: "0.8rem" }}>
-                        <b>Release Date:</b> {formatDate(data.release_date)}
-                      </Card.Text>
-                      <Button
-                        style={{ width: "100%" }}
-                        onClick={() => handleDetail(data.id)}
-                      >
-                        Detail
-                      </Button>
-                    </Card.Footer>
-                  </Card>
-                </Col>
-              ))}
+                  ) : (
+                    <Card.Img
+                      variant="top"
+                      src={img_card}
+                      style={{
+                        objectFit: "contain",
+                        objectPosition: "center",
+                        width: "100%",
+                      }}
+                    />
+                  )}
+                  <Card.Body
+                    style={{
+                      minHeight: "100px",
+                    }}
+                  >
+                    <Card.Title
+                      style={{
+                        color: "red",
+                        minHeight: "40px",
+                        fontSize: "1.1rem",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                      }}
+                    >
+                      {data.original_title}
+                    </Card.Title>
+                    <Card.Text
+                      style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        fontSize: "0.8rem",
+                        color: "#ffffff",
+                      }}
+                    >
+                      {data.overview.split(" ").slice(0, 20).join(" ")}
+                      {data.overview.split(" ").length > 20 && "..."}
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Card.Text style={{ color: "white", fontSize: "0.8rem" }}>
+                      <b>Release Date:</b>{" "}
+                      {data.release_date ? formatDate(data.release_date) : ""}
+                    </Card.Text>
+                    <Button
+                      style={{ width: "100%" }}
+                      onClick={() => handleDetail(data.id)}
+                    >
+                      Detail
+                    </Button>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            ))}
           </Row>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "80vh",
+            }}
+          >
+            <h3 style={{ color: "red", fontSize: "3.5rem" }}>
+              DATA NOT FOUND!
+            </h3>
+          </div>
         )}
       </div>
 

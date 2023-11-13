@@ -12,7 +12,7 @@ const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
     // Hide skeleton after 1500ms (1.5 seconds)
     const timeoutId = setTimeout(() => {
       setShowSkeleton(false);
-    }, 800);
+    }, 1000);
 
     // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeoutId);

@@ -1,29 +1,31 @@
 import {
   GET_MOVIE_DETAIL,
-  GET_MOVIE_NOWPLAYING_LIST,
+  GET_MOVIE_POPULAR_LIST,
   IS_LOADING_DETAIL,
-  IS_LOADING_MOVIE_NOWPLAYING_LIST,
+  IS_LOADING_MOVIE_POPULAR_LIST,
+  SEARCH_MOVIE,
 } from "../../../constant";
 
 const initialState = {
-  dataMovieNowPlaying: [],
-  isLoadingMovieNowPlaying: false,
+  dataMoviePopular: [],
+  isLoadingPopularMovie: false,
   dataDetailMovie: {},
   isLoadingDetail: false,
+  dataSearchMovie: [],
 };
 
 const movieReducers = (state = initialState, action) => {
   switch (action.type) {
-    case GET_MOVIE_NOWPLAYING_LIST:
+    case GET_MOVIE_POPULAR_LIST:
       return {
         ...state,
-        dataMovieNowPlaying: action.payload.data,
-        isLoadingMovieNowPlaying: action.payload.isLoading,
+        dataMoviePopular: action.payload.data,
+        isLoadingPopularMovie: action.payload.isLoading,
       };
-    case IS_LOADING_MOVIE_NOWPLAYING_LIST:
+    case IS_LOADING_MOVIE_POPULAR_LIST:
       return {
         ...state,
-        isLoadingMovieNowPlaying: action.payload.isLoading,
+        isLoadingPopularMovie: action.payload.isLoading,
       };
     case GET_MOVIE_DETAIL:
       return {
@@ -36,6 +38,13 @@ const movieReducers = (state = initialState, action) => {
         ...state,
         isLoadingDetail: action.payload.isLoading,
       };
+    case SEARCH_MOVIE:
+      return {
+        ...state,
+        dataSearchMovie: action.payload.data,
+        isLoadingMoviePopular: action.payload.isLoading,
+      };
+
     default:
       return state;
   }
