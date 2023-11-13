@@ -8,7 +8,11 @@ function HeaderMovie() {
       <Container fluid>
         <Navbar.Brand
           href="#home"
-          style={{ color: "#fff", textShadow: "1.5px 1px 4px" }}
+          style={{
+            color: "#fff",
+            textShadow: "1.5px 1px 4px",
+            fontSize: "1.5rem",
+          }}
         >
           Movie App Ronald
         </Navbar.Brand>

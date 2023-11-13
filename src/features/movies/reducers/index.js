@@ -1,11 +1,15 @@
 import {
+  GET_MOVIE_DETAIL,
   GET_MOVIE_NOWPLAYING_LIST,
+  IS_LOADING_DETAIL,
   IS_LOADING_MOVIE_NOWPLAYING_LIST,
 } from "../../../constant";
 
 const initialState = {
   dataMovieNowPlaying: [],
   isLoadingMovieNowPlaying: false,
+  dataDetailMovie: {},
+  isLoadingDetail: false,
 };
 
 const movieReducers = (state = initialState, action) => {
@@ -20,6 +24,17 @@ const movieReducers = (state = initialState, action) => {
       return {
         ...state,
         isLoadingMovieNowPlaying: action.payload.isLoading,
+      };
+    case GET_MOVIE_DETAIL:
+      return {
+        ...state,
+        isLoadingDetail: action.payload.isLoading,
+        dataDetailMovie: action.payload.data,
+      };
+    case IS_LOADING_DETAIL:
+      return {
+        ...state,
+        isLoadingDetail: action.payload.isLoading,
       };
     default:
       return state;
