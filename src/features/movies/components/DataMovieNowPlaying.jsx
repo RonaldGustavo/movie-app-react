@@ -34,10 +34,6 @@ const DataMovieNowPlaying = () => {
     isLoadingDetail,
     dataDetailMovie,
   } = useSelector((state) => state.movies);
-  console.log("data detail: ", dataDetailMovie);
-  console.log("loading", isLoadingPopularMovie);
-
-  console.log(dataMoviePopular);
 
   const handleDetail = (idMovie) => {
     setShow(true);

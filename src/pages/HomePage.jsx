@@ -14,10 +14,6 @@ const HomePage = () => {
       >
         <HeaderMovie />
         <div className="container-fluid" style={{ minHeight: "100vh" }}>
-          <br />
-          <br />
-          <br />
-          <br />
           <DataMovie />
         </div>
       </div>
