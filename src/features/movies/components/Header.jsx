@@ -1,53 +1,72 @@
-import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import { useDispatch } from "react-redux";
-import { searchMovieAction } from "../actions";
+import { Button, Form } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchMovieAction } from '../actions';
+import { GET_KEYWORD, GET_PAGE, IS_SEARCH } from '../../../constant';
 
 function HeaderMovie() {
-  const [keyword, setKeyword] = useState("");
-
   const dispatch = useDispatch();
+  const { keyword } = useSelector((state) => state.movies);
 
   const handleSearch = () => {
-    dispatch(searchMovieAction(keyword));
-    setKeyword("");
+    dispatch({
+      type: IS_SEARCH,
+      payload: true,
+    });
+    dispatch({
+      type: GET_PAGE,
+      payload: 1,
+    });
+
+    if (keyword === '') {
+      dispatch({
+        type: IS_SEARCH,
+        payload: false,
+      });
+    } else {
+      dispatch(searchMovieAction(keyword, 1));
+    }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleSearch();
-      setKeyword("");
     }
   };
 
   return (
-    <Navbar className="bg-dark w-100 py-4" expand="lg" fixed="top">
+    <Navbar
+      expand="lg"
+      // fixed="top"
+      className="py-3 navbar-container"
+    >
       <Container fluid>
-        <Navbar.Brand
-          href="#home"
-          style={{
-            color: "#fff",
-            textShadow: "1.5px 1px 4px",
-            fontSize: "1.5rem",
-          }}
-          className="brand_logo"
-        >
-          Movie App Ronald
+        <Navbar.Brand className="navbar-title">
+          🎬 Movie App Ronald
         </Navbar.Brand>
-        <Form className="d-flex">
+
+        <Form className="d-flex ms-auto" onSubmit={(e) => e.preventDefault()}>
           <Form.Control
             type="search"
             placeholder="Search"
-            className="me-2"
+            className="me-2 custom-search input-search"
             aria-label="Search"
-            onChange={(e) => setKeyword(e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: GET_KEYWORD,
+                payload: e.target.value,
+              })
+            }
             onKeyPress={handleKeyPress}
             value={keyword}
           />
-          <Button variant="outline-light" onClick={handleSearch}>
+          <Button
+            variant="outline-light"
+            style={{ fontWeight: '600', letterSpacing: '1px' }}
+            onClick={handleSearch}
+          >
             Search
           </Button>
         </Form>

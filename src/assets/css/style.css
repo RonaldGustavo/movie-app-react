@@ -1,39 +1,24 @@
-@import "../css/components/home/index.css";
+@import "../css/components/home";
+@import "../css/components/navbar";
+@import "../css/components/pagination";
+@import "../css/components/card";
+@import "../css/components/nodata";
+@import "../css/components/detail";
+@import "../css/components/splashscreen";
+
+
+body {
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 
 .container-box {
-  background: linear-gradient(to bottom right, #3a75cc, #051d3e);
+  background: linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
   width: 100%;
   min-height: 100vh;
-}
-
-/* SplashScreen.css */
-.splash-screen {
-  background: linear-gradient(to bottom right, #3a75cc, #051d3e);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #fff;
-  font-family: "Arial", sans-serif;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  75% {
-    opacity: 0.75;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 h1 {

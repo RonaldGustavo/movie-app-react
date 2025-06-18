@@ -3,7 +3,6 @@ import {
   GET_MOVIE_POPULAR_LIST,
   IS_LOADING_DETAIL,
   IS_LOADING_MOVIE_POPULAR_LIST,
-  SEARCH_MOVIE,
 } from "../../../constant";
 import {
   getDataDetailMovieService,
@@ -11,7 +10,7 @@ import {
   searchMovieService,
 } from "../services";
 
-export const getDataMovieNowPlayingAction = () => {
+export const getDataMovieNowPlayingAction = (page) => {
   return async (dispatch) => {
     dispatch({
       type: IS_LOADING_MOVIE_POPULAR_LIST,
@@ -20,7 +19,7 @@ export const getDataMovieNowPlayingAction = () => {
       },
     });
     try {
-      const data = await getDataMovieNowPlayingService();
+      const data = await getDataMovieNowPlayingService(page);
       dispatch({
         type: GET_MOVIE_POPULAR_LIST,
         payload: {
@@ -57,7 +56,7 @@ export const getDataDetailMovieAction = (idMovie) => {
   };
 };
 
-export const searchMovieAction = (keyword) => {
+export const searchMovieAction = (keyword, page) => {
   return async (dispatch) => {
     dispatch({
       type: IS_LOADING_MOVIE_POPULAR_LIST,
@@ -66,7 +65,7 @@ export const searchMovieAction = (keyword) => {
       },
     });
     try {
-      const data = await searchMovieService(keyword);
+      const data = await searchMovieService(keyword, page);
       dispatch({
         type: GET_MOVIE_POPULAR_LIST,
         payload: {

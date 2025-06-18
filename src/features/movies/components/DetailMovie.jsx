@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
-import { formatDate } from "../../../utils/Date";
+import { useEffect, useState } from 'react';
+import { Button, Col, Form, InputGroup, Modal, Row } from 'react-bootstrap';
+import { formatDate } from '../../../utils/Date';
 
 const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
   const [showSkeleton, setShowSkeleton] = useState(true);
+
   const handleClose = () => {
     setShow(false);
     setShowSkeleton(true);
   };
+
   useEffect(() => {
-    // Hide skeleton after 1500ms (1.5 seconds)
     const timeoutId = setTimeout(() => {
       setShowSkeleton(false);
     }, 1000);
 
-    // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeoutId);
   }, [dataDetail]);
 
@@ -26,36 +26,23 @@ const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
       backdrop={false}
       centered
     >
-      <Modal.Header closeButton>
-        <Modal.Title style={{ textShadow: "0.5px 1px 2px" }}>
-          Detail Movie
-        </Modal.Title>
+      <Modal.Header closeButton closeVariant="white">
+        <Modal.Title className="title-detail">Detail Movie</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <div className="container-fluid">
           {isLoadingDetail || showSkeleton ? (
             <Row>
               <Col lg={4}>
-                <div
-                  className="card-skeleton"
-                  style={{
-                    width: "100%",
-                    height: "400px",
-                    backgroundColor: "#202020",
-                  }}
-                ></div>
+                <div className="card-skeleton card-skeleton-detail" />
               </Col>
               <Col lg={8}>
                 {Array.from({ length: 7 }).map((_, index) => (
                   <div
-                    className="card-skeleton"
-                    style={{
-                      width: "100%",
-                      height: "52.5px",
-                      backgroundColor: "#202020",
-                      marginBottom: "5px",
-                    }}
-                  ></div>
+                    key={index}
+                    className="card-skeleton card-skeleton-bar-detail"
+                  />
                 ))}
               </Col>
             </Row>
@@ -64,131 +51,62 @@ const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
               <Col lg={4}>
                 <img
                   src={`${process.env.REACT_APP_IMG_URL}${dataDetail.poster_path}`}
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    width: "100%",
-                    height: "100%",
-                  }}
+                  className="img-detail"
                   alt={dataDetail.title}
                 />
               </Col>
               <Col lg={8}>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>ID</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="id"
-                    aria-describedby="basic-addon1"
-                    value={dataDetail.id}
-                    readOnly
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>Title</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="title"
-                    aria-describedby="basic-addon1"
-                    value={dataDetail.title}
-                    readOnly
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>Genre</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="genres"
-                    aria-describedby="basic-addon1"
-                    value={
-                      dataDetail.genres &&
-                      dataDetail.genres.map((data) => data.name).join(", ")
-                    }
-                    readOnly
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>Overview</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    aria-label="overview"
-                    aria-describedby="basic-addon1"
-                    value={dataDetail.overview}
-                    style={{ overflow: "scroll" }}
-                    readOnly
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>Release Date</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="title"
-                    aria-describedby="basic-addon1"
-                    value={formatDate(dataDetail.release_date)}
-                    readOnly
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>Status</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="release date"
-                    aria-describedby="basic-addon1"
-                    value={`${
-                      dataDetail.status === "Released"
-                        ? "Released ✅"
-                        : "Not Released ❌"
-                    }`}
-                    readOnly
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    style={{ width: "120px", color: "red" }}
-                  >
-                    <b>Rating</b>
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="title"
-                    aria-describedby="basic-addon1"
-                    value={`${parseFloat(dataDetail?.vote_average).toFixed(
+                {[
+                  { label: 'ID', value: dataDetail.id },
+                  { label: 'Title', value: dataDetail.title },
+                  {
+                    label: 'Genre',
+                    value: dataDetail.genres?.map((g) => g.name).join(', '),
+                  },
+                  {
+                    label: 'Overview',
+                    value: dataDetail.overview,
+                    textarea: true,
+                  },
+                  {
+                    label: 'Release Date',
+                    value: formatDate(dataDetail.release_date),
+                  },
+                  {
+                    label: 'Status',
+                    value:
+                      dataDetail.status === 'Released'
+                        ? 'Released ✅'
+                        : 'Not Released ❌',
+                  },
+                  {
+                    label: 'Rating',
+                    value: `${parseFloat(dataDetail?.vote_average).toFixed(
                       1
-                    )}⭐`}
-                    readOnly
-                  />
-                </InputGroup>
+                    )}⭐`,
+                  },
+                ].map(({ label, value, textarea }, idx) => (
+                  <InputGroup className="mb-3" key={idx}>
+                    <InputGroup.Text className="input-group-text">
+                      <b className="value-text">{label}</b>
+                    </InputGroup.Text>
+                    <Form.Control
+                      as={textarea ? 'textarea' : 'input'}
+                      rows={textarea ? 3 : undefined}
+                      aria-label={label.toLowerCase()}
+                      value={value}
+                      readOnly
+                      style={textarea ? { overflow: 'scroll' } : {}}
+                      className="value-text"
+                    />
+                  </InputGroup>
+                ))}
               </Col>
             </Row>
           )}
         </div>
       </Modal.Body>
+
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close

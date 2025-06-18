@@ -1,8 +1,11 @@
 import {
+  GET_KEYWORD,
   GET_MOVIE_DETAIL,
   GET_MOVIE_POPULAR_LIST,
+  GET_PAGE,
   IS_LOADING_DETAIL,
   IS_LOADING_MOVIE_POPULAR_LIST,
+  IS_SEARCH,
   SEARCH_MOVIE,
 } from "../../../constant";
 
@@ -12,6 +15,9 @@ const initialState = {
   dataDetailMovie: {},
   isLoadingDetail: false,
   dataSearchMovie: [],
+  page: 1,
+  isSearch: false,
+  keyword: ''
 };
 
 const movieReducers = (state = initialState, action) => {
@@ -43,6 +49,21 @@ const movieReducers = (state = initialState, action) => {
         ...state,
         dataSearchMovie: action.payload.data,
         isLoadingMoviePopular: action.payload.isLoading,
+      };
+    case GET_PAGE:
+      return {
+        ...state,
+        page: action.payload,
+      };
+    case IS_SEARCH:
+      return {
+        ...state,
+        isSearch: action.payload,
+      };
+    case GET_KEYWORD:
+      return {
+        ...state,
+        keyword: action.payload,
       };
 
     default:

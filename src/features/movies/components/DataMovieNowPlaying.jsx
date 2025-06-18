@@ -1,214 +1,260 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Card, Pagination } from 'react-bootstrap';
 import {
   getDataDetailMovieAction,
   getDataMovieNowPlayingAction,
-} from "../actions";
-import { Button, Card, Col, Row } from "react-bootstrap";
-import { formatDate } from "../../../utils/Date";
-import DetailMovie from "./DetailMovie";
+  searchMovieAction,
+} from '../actions';
+import { formatDate } from '../../../utils/Date';
+import DetailMovie from './DetailMovie';
 
-// image
-import img_card from "../../../assets/images/image_card.jpg";
+import img_card from '../../../assets/images/image_card.jpg';
+import { GET_PAGE } from '../../../constant';
 
 const DataMovieNowPlaying = () => {
   const dispatch = useDispatch();
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    dispatch(getDataMovieNowPlayingAction());
-
-    // Hide skeleton after 1500ms (1.5 seconds)
-    const timeoutId = setTimeout(() => {
-      setShowSkeleton(false);
-    }, 1000);
-
-    // Clear the timeout when the component is unmounted
-    return () => clearTimeout(timeoutId);
-  }, [dispatch]);
-
+  const [total_pages, setTotalPages] = useState(1);
   const {
     dataMoviePopular,
     isLoadingPopularMovie,
     isLoadingDetail,
     dataDetailMovie,
+    page,
+    isSearch,
+    keyword,
   } = useSelector((state) => state.movies);
+
+  const {
+    results,
+    total_results,
+    total_pages: totalPageApi,
+  } = dataMoviePopular;
+
+  useEffect(() => {
+    setShowSkeleton(true);
+    const timeoutId = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 1000);
+    if (!isSearch && keyword.length === 0) {
+      dispatch(getDataMovieNowPlayingAction(page));
+    } else {
+      dispatch(searchMovieAction(keyword, page));
+    }
+    return () => clearTimeout(timeoutId);
+  }, [page, dispatch, isSearch]);
+
+  useEffect(() => {
+    if (total_results === 0) {
+      setTotalPages(1);
+    } else if (totalPageApi > 500) {
+      setTotalPages(500);
+    } else {
+      setTotalPages(totalPageApi);
+    }
+  }, [total_results, totalPageApi]);
 
   const handleDetail = (idMovie) => {
     setShow(true);
     dispatch(getDataDetailMovieAction(idMovie));
   };
 
+  const getMiddlePages = (current, total) => {
+    const pages = [];
+
+    if (total <= 7) {
+      for (let i = 2; i < total; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (current <= 4) {
+        for (let i = 2; i <= 5; i++) {
+          pages.push(i);
+        }
+      } else if (current >= total - 3) {
+        for (let i = total - 4; i < total; i++) {
+          pages.push(i);
+        }
+      } else {
+        for (let i = current - 1; i <= current + 1; i++) {
+          pages.push(i);
+        }
+      }
+    }
+
+    return pages;
+  };
+
   return (
     <>
       <div>
-        <h2
-          style={{
-            textAlign: "left",
-            margin: "20px 0px",
-            textShadow: "2px 2px 4px",
-            color: "#ffffff",
-          }}
-        >
-          Popular Movie
-        </h2>
+        <h2 className="title-section">Popular Movies</h2>
 
-        {isLoadingPopularMovie || showSkeleton ? (
-          <Row>
-            {Array.from({ length: 12 }).map((_, index) => (
-              <Col key={index} xs={12} sm={6} md={6} lg={4} xl={3}>
-                <Card
-                  style={{
-                    marginBottom: "20px",
-                    backgroundColor: "black",
-                    minHeight: `${600}px`,
-                  }}
-                  className="card-skeleton"
-                >
-                  <div
-                    className="card-skeleton"
-                    style={{
-                      width: "100%",
-                      height: "450px",
-                      backgroundColor: "#202020",
-                      marginBottom: "5px",
-                    }}
-                  ></div>
-                  <div
-                    className="card-skeleton"
-                    style={{
-                      width: "100%",
-                      height: "55px",
-                      backgroundColor: "#202020",
-                      marginBottom: "5px",
-                    }}
-                  ></div>
-                  <div
-                    className="card-skeleton"
-                    style={{
-                      width: "100%",
-                      height: "70px",
-                      backgroundColor: "#202020",
-                      marginBottom: "5px",
-                    }}
-                  ></div>
-                  <div
-                    className="card-skeleton"
-                    style={{
-                      width: "100%",
-                      height: "40px",
-                      backgroundColor: "#202020",
-                      marginBottom: "5px",
-                    }}
-                  ></div>
-                  <div
-                    className="card-skeleton"
-                    style={{
-                      width: "100%",
-                      height: "60px",
-                      backgroundColor: "#202020",
-                      marginBottom: "5px",
-                    }}
-                  ></div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        ) : dataMoviePopular && dataMoviePopular.length > 0 ? (
-          <Row>
-            {dataMoviePopular.map((data) => (
-              <Col key={data.id} xs={12} sm={6} md={6} lg={4} xl={3}>
-                <Card
-                  style={{
-                    marginBottom: "20px",
-                    backgroundColor: "black",
-                    minHeight: `725px`,
-                    borderRadius: "10px",
-                  }}
-                >
-                  {" "}
-                  {data.poster_path ? (
-                    <Card.Img
-                      variant="top"
-                      src={`${process.env.REACT_APP_IMG_URL}${data.poster_path}`}
-                      style={{
-                        objectFit: "contain",
-                        objectPosition: "center",
-                        width: "100%",
-                      }}
-                    />
-                  ) : (
-                    <Card.Img
-                      variant="top"
-                      src={img_card}
-                      style={{
-                        objectFit: "contain",
-                        objectPosition: "center",
-                        width: "100%",
-                      }}
-                    />
-                  )}
-                  <Card.Body
-                    style={{
-                      minHeight: "100px",
-                    }}
+        <div className="content-home">
+          {isLoadingPopularMovie || showSkeleton ? (
+            Array.from({ length: 10 }).map((_, index) => (
+              <Card key={index} className="card-skeleton">
+                {[200, 40, 60, 20, 40].map((height, i) => (
+                  <div key={i} className="card-skeleton-bar"></div>
+                ))}
+              </Card>
+            ))
+          ) : results && results.length > 0 ? (
+            results.map((data) => (
+              <Card key={data.id} className="card-container">
+                <Card.Img
+                  variant="top"
+                  src={
+                    data.poster_path
+                      ? `${process.env.REACT_APP_IMG_URL}${data.poster_path}`
+                      : img_card
+                  }
+                  className="card-img"
+                />
+                <Card.Body className="card-body mx-1">
+                  <Card.Title className="card-title">
+                    {data.original_title}
+                  </Card.Title>
+                  <Card.Text className="card-text">
+                    {data.overview.split(' ').slice(0, 20).join(' ')}
+                    {data.overview.split(' ').length > 20 && '...'}
+                  </Card.Text>
+                </Card.Body>
+                <Card.Footer className="card-footer mx-1">
+                  <Card.Text className="card-text-footer">
+                    <b>Release:</b>{' '}
+                    {data.release_date ? formatDate(data.release_date) : ''}
+                  </Card.Text>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    className="card-button"
+                    onClick={() => handleDetail(data.id)}
                   >
-                    <Card.Title
-                      style={{
-                        color: "red",
-                        minHeight: "40px",
-                        fontSize: "1.1rem",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                      }}
-                    >
-                      {data.original_title}
-                    </Card.Title>
-                    <Card.Text
-                      style={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        fontSize: "0.8rem",
-                        color: "#ffffff",
-                      }}
-                    >
-                      {data.overview.split(" ").slice(0, 20).join(" ")}
-                      {data.overview.split(" ").length > 20 && "..."}
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <Card.Text style={{ color: "white", fontSize: "0.8rem" }}>
-                      <b>Release Date:</b>{" "}
-                      {data.release_date ? formatDate(data.release_date) : ""}
-                    </Card.Text>
-                    <Button
-                      style={{ width: "100%" }}
-                      onClick={() => handleDetail(data.id)}
-                    >
-                      Detail
-                    </Button>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "80vh",
-            }}
-          >
-            <h3 style={{ color: "red", fontSize: "3.5rem" }}>
-              DATA NOT FOUND!
-            </h3>
+                    Detail
+                  </Button>
+                </Card.Footer>
+              </Card>
+            ))
+          ) : (
+            <div className="nodata-container">
+              <h3 className="title-nodata">No Movies Found</h3>
+              <p className="desc-nodata">
+                Try searching with a different keyword.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="pagination-container">
+          <div className="pagination-showpage">
+            Showing page {page} of {total_pages} | Total: {total_results} movies
           </div>
-        )}
+
+          <Pagination>
+            {page > 1 && (
+              <Pagination.Prev
+                onClick={() =>
+                  dispatch({
+                    type: GET_PAGE,
+                    payload: page - 1,
+                  })
+                }
+                className="nav-style"
+              />
+            )}
+
+            <Pagination.Item
+              active={page === 1}
+              onClick={() =>
+                dispatch({
+                  type: GET_PAGE,
+                  payload: 1,
+                })
+              }
+              className={`pagination-item ${1 === page ? 'active' : ''}`}
+            >
+              1
+            </Pagination.Item>
+
+            {page > 4 && (
+              <Pagination.Item
+                onClick={() =>
+                  dispatch({
+                    type: GET_PAGE,
+                    payload: Math.max(page - 3, 1),
+                  })
+                }
+                className="ellipsis-style"
+              >
+                ...
+              </Pagination.Item>
+            )}
+
+            {getMiddlePages(page, total_pages).map((pageItem) => (
+              <Pagination.Item
+                key={pageItem}
+                active={page === pageItem}
+                onClick={() =>
+                  dispatch({
+                    type: GET_PAGE,
+                    payload: pageItem,
+                  })
+                }
+                className={`pagination-item ${
+                  page === pageItem ? 'active' : ''
+                }`}
+              >
+                {pageItem}
+              </Pagination.Item>
+            ))}
+
+            {page < total_pages - 3 && (
+              <Pagination.Item
+                onClick={() =>
+                  dispatch({
+                    type: GET_PAGE,
+                    payload: Math.min(page + 3, total_pages),
+                  })
+                }
+                className="ellipsis-style"
+              >
+                ...
+              </Pagination.Item>
+            )}
+
+            {total_pages > 1 && (
+              <Pagination.Item
+                active={page === total_pages}
+                onClick={() =>
+                  dispatch({
+                    type: GET_PAGE,
+                    payload: total_pages,
+                  })
+                }
+                className={`pagination-item ${
+                  total_pages === page ? 'active' : ''
+                }`}
+              >
+                {total_pages}
+              </Pagination.Item>
+            )}
+
+            {page < total_pages && (
+              <Pagination.Next
+                onClick={() =>
+                  dispatch({
+                    type: GET_PAGE,
+                    payload: page + 1,
+                  })
+                }
+                className="nav-style"
+              />
+            )}
+          </Pagination>
+        </div>
       </div>
 
       <DetailMovie

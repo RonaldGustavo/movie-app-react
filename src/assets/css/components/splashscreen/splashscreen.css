@@ -1,0 +1,51 @@
+
+
+.container-splashscreen {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  animation: fadeIn 1.5s ease-in-out;
+  overflow: auto; 
+}
+
+.logo-splashscreen {
+  width: 120px;
+  height: 120px;
+  animation: popIn 1.2s ease;
+}
+
+.title-splashscreen {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+}
+
+.tagline-splashscreen {
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}

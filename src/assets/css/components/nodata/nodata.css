@@ -1,0 +1,20 @@
+.nodata-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  color: #fff;
+  text-align: center;
+}
+
+.title-nodata {
+  font-size: 2rem;
+  color: #ff4d4f;
+  margin-bottom: 10px;
+}
+
+.desc-nodata {
+  color: #aaa;
+  font-size: 1rem;
+}

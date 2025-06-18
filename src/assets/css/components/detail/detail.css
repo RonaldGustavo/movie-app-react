@@ -1,0 +1,61 @@
+:root {
+  --bg-modal: #1a2b33;               /* Solid gelap kebiruan */
+  --bg-input: #24343f;              /* Input gelap tapi beda tone */
+  --bg-input-label: #2f4452;
+  --text-main: #e0e0e0;             /* Soft white */
+  --text-accent: #ff4c4c;           /* Merah aksen */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+  background-color: var(--bg-modal);
+  color: var(--text-main);
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--shadow-soft);
+}
+
+.modal-header,
+.modal-footer {
+  border: none;
+}
+
+/* Title */
+.title-detail {
+  color: var(--text-accent);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Gambar */
+.img-detail {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 400px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Label input */
+.input-group-text {
+  width: 120px;
+  background-color: var(--bg-input-label);
+  color: var(--text-accent);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+}
+
+/* Value text */
+.value-text,
+.form-control:read-only {
+  font-size: 13px;
+  color: var(--text-main);
+  border: none;
+}
+
+.form-control:read-only {
+      background-color: var(--bg-input);
+}
