@@ -43,6 +43,7 @@ const DataMovieNowPlaying = () => {
       dispatch(searchMovieAction(keyword, page));
     }
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, dispatch, isSearch]);
 
   useEffect(() => {
