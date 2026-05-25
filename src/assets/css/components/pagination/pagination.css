@@ -1,45 +1,95 @@
 .pagination-container {
-  margin-top: 20px;
+  margin: 36px 0 28px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #fff;
+  gap: 14px;
 }
 
 .pagination-showpage {
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  color: #ccc;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.4px;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.pagination-item {
-  background-color: #f0f0f0;
-  border: none;
-  color: #000;
-  margin: 0 4px;
-  border-radius: 8px;
-  font-weight: normal;
-  transition: all 0.2s;
-  cursor: pointer;
+/* Override Bootstrap pagination */
+.pagination {
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 0;
 }
 
-.pagination-item.active {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: bold;
+.pagination .page-item .page-link,
+.pagination-item .page-link {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  border-radius: 8px !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  padding: 6px 13px !important;
+  min-width: 36px;
+  text-align: center;
+  transition: all 0.18s ease !important;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.ellipsis-style {
-  color: #aaa;
-  margin: 0 4px;
-  font-size: 1.2rem;
-  cursor: pointer;
+.pagination .page-item .page-link:hover,
+.pagination-item .page-link:hover {
+  background-color: rgba(229, 9, 20, 0.18) !important;
+  border-color: rgba(229, 9, 20, 0.4) !important;
+  color: #fff !important;
 }
 
-.nav-style {
-  background-color: transparent;
-  border: none;
-  color: #007bff;
-  font-weight: bold;
-  cursor: pointer;
+/* Active page */
+.pagination-item.active .page-link,
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #e50914 0%, #b50710 100%) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(229, 9, 20, 0.4) !important;
+}
+
+/* Ellipsis */
+.ellipsis-style .page-link {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: rgba(255, 255, 255, 0.28) !important;
+  cursor: default;
+}
+
+.ellipsis-style .page-link:hover {
+  background-color: rgba(229, 9, 20, 0.1) !important;
+  border-color: rgba(229, 9, 20, 0.2) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Prev / Next arrows */
+.nav-style .page-link {
+  background-color: rgba(229, 9, 20, 0.1) !important;
+  border-color: rgba(229, 9, 20, 0.25) !important;
+  color: #e50914 !important;
+  font-weight: 700 !important;
+}
+
+.nav-style .page-link:hover {
+  background-color: rgba(229, 9, 20, 0.28) !important;
+  color: #fff !important;
+}
+
+@media (max-width: 480px) {
+  .pagination .page-item .page-link,
+  .pagination-item .page-link {
+    padding: 5px 10px !important;
+    font-size: 0.74rem !important;
+    min-width: 30px;
+  }
+
+  .pagination-showpage {
+    font-size: 0.71rem;
+    text-align: center;
+  }
 }

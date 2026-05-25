@@ -10,21 +10,12 @@ function HeaderMovie() {
   const { keyword } = useSelector((state) => state.movies);
 
   const handleSearch = () => {
-    dispatch({
-      type: IS_SEARCH,
-      payload: true,
-    });
-    dispatch({
-      type: GET_PAGE,
-      payload: 1,
-    });
+    dispatch({ type: GET_PAGE, payload: 1 });
 
-    if (keyword === '') {
-      dispatch({
-        type: IS_SEARCH,
-        payload: false,
-      });
+    if (keyword.trim() === '') {
+      dispatch({ type: IS_SEARCH, payload: false });
     } else {
+      dispatch({ type: IS_SEARCH, payload: true });
       dispatch(searchMovieAction(keyword, 1));
     }
   };
@@ -37,39 +28,33 @@ function HeaderMovie() {
   };
 
   return (
-    <Navbar
-      expand="lg"
-      // fixed="top"
-      className="py-3 navbar-container"
-    >
-      <Container fluid>
-        <Navbar.Brand className="navbar-title">
-          🎬 Movie App Ronald
-        </Navbar.Brand>
+    <Navbar expand="lg" className="navbar-container">
+      <Container fluid className="px-3 px-md-4">
+        <Navbar.Brand className="navbar-title">🎬 Movie App</Navbar.Brand>
 
-        <Form className="d-flex ms-auto" onSubmit={(e) => e.preventDefault()}>
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2 custom-search input-search"
-            aria-label="Search"
-            onChange={(e) =>
-              dispatch({
-                type: GET_KEYWORD,
-                payload: e.target.value,
-              })
-            }
-            onKeyPress={handleKeyPress}
-            value={keyword}
-          />
-          <Button
-            variant="outline-light"
-            style={{ fontWeight: '600', letterSpacing: '1px' }}
-            onClick={handleSearch}
+        <Navbar.Toggle aria-controls="navbar-search" />
+
+        <Navbar.Collapse id="navbar-search" className="justify-content-end">
+          <Form
+            className="d-flex search-form"
+            onSubmit={(e) => e.preventDefault()}
           >
-            Search
-          </Button>
-        </Form>
+            <Form.Control
+              type="search"
+              placeholder="Search movies..."
+              className="input-search"
+              aria-label="Search"
+              onChange={(e) =>
+                dispatch({ type: GET_KEYWORD, payload: e.target.value })
+              }
+              onKeyPress={handleKeyPress}
+              value={keyword}
+            />
+            <Button className="btn-search" onClick={handleSearch}>
+              Search
+            </Button>
+          </Form>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

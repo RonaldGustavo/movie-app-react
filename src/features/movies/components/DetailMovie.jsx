@@ -11,10 +11,7 @@ const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
   };
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowSkeleton(false);
-    }, 1000);
-
+    const timeoutId = setTimeout(() => setShowSkeleton(false), 1000);
     return () => clearTimeout(timeoutId);
   }, [dataDetail]);
 
@@ -22,93 +19,87 @@ const DetailMovie = ({ show, setShow, dataDetail, isLoadingDetail }) => {
     <Modal
       show={show}
       onHide={handleClose}
-      className="modal-lg"
-      backdrop={false}
+      size="lg"
+      backdrop="static"
       centered
+      scrollable
     >
-      <Modal.Header closeButton closeVariant="white">
+      <Modal.Header closeButton>
         <Modal.Title className="title-detail">Detail Movie</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
-        <div className="container-fluid">
-          {isLoadingDetail || showSkeleton ? (
-            <Row>
-              <Col lg={4}>
-                <div className="card-skeleton card-skeleton-detail" />
-              </Col>
-              <Col lg={8}>
-                {Array.from({ length: 7 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="card-skeleton card-skeleton-bar-detail"
+      <Modal.Body className="p-3 p-md-4">
+        {isLoadingDetail || showSkeleton ? (
+          <Row>
+            <Col lg={4} className="mb-3 mb-lg-0">
+              <div className="card-skeleton-detail" />
+            </Col>
+            <Col lg={8}>
+              {Array.from({ length: 7 }).map((_, i) => (
+                <div key={i} className="card-skeleton-bar-detail" />
+              ))}
+            </Col>
+          </Row>
+        ) : (
+          <Row>
+            <Col lg={4} className="mb-3 mb-lg-0">
+              <img
+                src={`${process.env.REACT_APP_IMG_URL}${dataDetail.poster_path}`}
+                className="img-detail"
+                alt={dataDetail.title}
+              />
+            </Col>
+            <Col lg={8}>
+              {[
+                { label: 'ID', value: dataDetail.id },
+                { label: 'Title', value: dataDetail.title },
+                {
+                  label: 'Genre',
+                  value: dataDetail.genres?.map((g) => g.name).join(', '),
+                },
+                {
+                  label: 'Overview',
+                  value: dataDetail.overview,
+                  textarea: true,
+                },
+                {
+                  label: 'Release',
+                  value: formatDate(dataDetail.release_date),
+                },
+                {
+                  label: 'Status',
+                  value:
+                    dataDetail.status === 'Released'
+                      ? 'Released ✅'
+                      : 'Not Released ❌',
+                },
+                {
+                  label: 'Rating',
+                  value: `${parseFloat(dataDetail?.vote_average).toFixed(1)} ⭐`,
+                },
+              ].map(({ label, value, textarea }, idx) => (
+                <InputGroup className="mb-2" key={idx}>
+                  <InputGroup.Text>
+                    <b className="value-text">{label}</b>
+                  </InputGroup.Text>
+                  <Form.Control
+                    as={textarea ? 'textarea' : 'input'}
+                    rows={textarea ? 3 : undefined}
+                    aria-label={label.toLowerCase()}
+                    value={value}
+                    readOnly
+                    style={textarea ? { resize: 'none' } : {}}
+                    className="value-text"
                   />
-                ))}
-              </Col>
-            </Row>
-          ) : (
-            <Row>
-              <Col lg={4}>
-                <img
-                  src={`${process.env.REACT_APP_IMG_URL}${dataDetail.poster_path}`}
-                  className="img-detail"
-                  alt={dataDetail.title}
-                />
-              </Col>
-              <Col lg={8}>
-                {[
-                  { label: 'ID', value: dataDetail.id },
-                  { label: 'Title', value: dataDetail.title },
-                  {
-                    label: 'Genre',
-                    value: dataDetail.genres?.map((g) => g.name).join(', '),
-                  },
-                  {
-                    label: 'Overview',
-                    value: dataDetail.overview,
-                    textarea: true,
-                  },
-                  {
-                    label: 'Release Date',
-                    value: formatDate(dataDetail.release_date),
-                  },
-                  {
-                    label: 'Status',
-                    value:
-                      dataDetail.status === 'Released'
-                        ? 'Released ✅'
-                        : 'Not Released ❌',
-                  },
-                  {
-                    label: 'Rating',
-                    value: `${parseFloat(dataDetail?.vote_average).toFixed(
-                      1
-                    )}⭐`,
-                  },
-                ].map(({ label, value, textarea }, idx) => (
-                  <InputGroup className="mb-3" key={idx}>
-                    <InputGroup.Text className="input-group-text">
-                      <b className="value-text">{label}</b>
-                    </InputGroup.Text>
-                    <Form.Control
-                      as={textarea ? 'textarea' : 'input'}
-                      rows={textarea ? 3 : undefined}
-                      aria-label={label.toLowerCase()}
-                      value={value}
-                      readOnly
-                      style={textarea ? { overflow: 'scroll' } : {}}
-                      className="value-text"
-                    />
-                  </InputGroup>
-                ))}
-              </Col>
-            </Row>
-          )}
-        </div>
+                </InputGroup>
+              ))}
+            </Col>
+          </Row>
+        )}
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button className="btn-modal-close" onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>

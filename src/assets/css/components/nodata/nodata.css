@@ -3,18 +3,34 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
-  color: #fff;
+  min-height: 50vh;
   text-align: center;
+  grid-column: 1 / -1;
+  padding: 48px 20px;
+}
+
+.nodata-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+  animation: float 3s ease-in-out infinite;
 }
 
 .title-nodata {
-  font-size: 2rem;
-  color: #ff4d4f;
-  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .desc-nodata {
-  color: #aaa;
-  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.88rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
